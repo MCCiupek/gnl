@@ -6,13 +6,13 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:52:40 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/16 13:44:06 by mcciupek         ###   ########.fr       */
+/*   Updated: 2020/12/16 13:56:48 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	ft_strlen(char *str)
+int		ft_strlen(char *str)
 {
 	int	i;
 
@@ -52,7 +52,7 @@ size_t	ft_strlcpy(char *dest, char *src, size_t size)
 
 char	*ft_strldup(char *src, size_t size)
 {
-	char *tab;
+	char	*tab;
 
 	tab = (char *)malloc(sizeof(char) * (size + 1));
 	if (tab)

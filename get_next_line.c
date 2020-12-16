@@ -6,7 +6,7 @@
 /*   By: mciupek <mciupek@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/07 14:06:02 by mciupek           #+#    #+#             */
-/*   Updated: 2020/12/16 13:49:53 by mcciupek         ###   ########.fr       */
+/*   Updated: 2020/12/16 13:56:02 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static int	ft_read_line(t_line *nl, int fd)
 	return (ret);
 }
 
-int	reset_struct(t_line *nl, int b_reset_line, char **line, int ret_val)
+int			reset_struct(t_line *nl, int b_reset_line, char **line, int ret_val)
 {
 	if (b_reset_line)
 	{
@@ -44,10 +44,10 @@ int	reset_struct(t_line *nl, int b_reset_line, char **line, int ret_val)
 	return (ret_val);
 }
 
-int	get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	static t_line	nl;
-	int		i;
+	int				i;
 
 	if (!fd || fd < 0 || !line)
 		return (-1);
