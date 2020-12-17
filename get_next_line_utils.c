@@ -6,7 +6,7 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:52:40 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/16 13:56:48 by mciupek          ###   ########.fr       */
+/*   Updated: 2020/12/17 15:29:35 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ size_t	ft_strlcpy(char *dest, char *src, size_t size)
 {
 	size_t	i;
 
-	i = -1;
+	i = 0;
 	if (!dest || !src)
 		return (0);
-	while (++i < size)
+	while (i < size)
 	{
 		if (!src[i])
 		{
@@ -44,9 +44,8 @@ size_t	ft_strlcpy(char *dest, char *src, size_t size)
 			break ;
 		}
 		dest[i] = src[i];
-	}
-	while (src[i])
 		i++;
+	}
 	return (i);
 }
 
@@ -71,7 +70,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	l1 = ft_strlen(s1);
 	l2 = ft_strlen(s2);
-	if ((tab = (char *)malloc(sizeof(char) * (1 + l1 + l2))))
+	if ((tab = (char *)malloc(sizeof(char) * (l1 + l2 + 1))))
 	{
 		ft_strlcpy(tab, s1, l1 + 1);
 		ft_strlcpy(tab + l1, s2, l2 + 1);
