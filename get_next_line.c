@@ -6,11 +6,10 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:02:09 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/18 15:42:32 by mciupek          ###   ########.fr       */
+/*   Updated: 2020/12/18 15:56:41 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <string.h>
 #include "get_next_line.h"
 
@@ -93,7 +92,7 @@ static int	ft_stock(t_line *nl, char **line)
 
 int		get_next_line(int fd, char **line)
 {
-	char			*buf;//[BUFFER_SIZE + 1];
+	char			*buf;
 	static t_line	nl;
 	int			err;
 
