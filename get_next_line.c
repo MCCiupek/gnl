@@ -6,7 +6,7 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:02:09 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/18 15:18:28 by mcciupek         ###   ########.fr       */
+/*   Updated: 2020/12/18 15:42:32 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static int	ft_err(int fd, char *buf, char **line)
 
 	ret = read(fd, buf, BUFFER_SIZE);
 	if (fd < 0 || !line || BUFFER_SIZE < 1 || ret < 0)
+	{
+		free(buf);
 		return (-1);
+	}
 	return (ret);
 }
 
@@ -90,15 +93,18 @@ static int	ft_stock(t_line *nl, char **line)
 
 int		get_next_line(int fd, char **line)
 {
-	char			buf[BUFFER_SIZE + 1];
+	char			*buf;//[BUFFER_SIZE + 1];
 	static t_line	nl;
 	int			err;
 
+	if (!(buf = (char *)malloc(sizeof(char) * BUFFER_SIZE + 1)))
+		return (-1);
 	if ((err = ft_err(fd, buf, line)) == -1)
 		return (-1);
 	buf[err] = 0;
 	if (!nl.count++)
 		err = ft_read(fd, buf, &nl);
+	free(buf);
 	if (err == -1)
 		return (ft_reset(&nl, line, 1, -1));
 	err = ft_stock(&nl, line);
