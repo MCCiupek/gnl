@@ -3,26 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mciupek <mciupek@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/07 14:06:02 by mciupek           #+#    #+#             */
-/*   Updated: 2020/12/17 16:56:15 by mciupek          ###   ########.fr       */
+/*   Created: 2020/12/17 18:02:09 by mcciupek          #+#    #+#             */
+/*   Updated: 2020/12/18 11:15:18 by mcciupek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <string.h>
 #include "get_next_line.h"
 
-static int	ft_read_line(t_line *nl, int fd)
+static int	ft_err(int fd, char *buf, char **line)
 {
-	char		buff[BUFFER_SIZE + 1];
-	char		*tmp;
-	int			ret;
+	int	ret;
 
-	while ((ret = read(fd, buff, BUFFER_SIZE)) > 0)
+	ret = read(fd, buf, BUFFER_SIZE);
+	if (fd < 0 || !line || BUFFER_SIZE < 1 || ret < 0)
+		return (-1);
+	return (ret);
+}
+
+static int	ft_read(int fd, char *buf, t_line *nl)
+{
+	char	*tmp;
+	int	ret;
+
+	if (!(nl->txt = ft_strldup(buf, ft_strlen(buf))))
+		return (-1);
+	while ((ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-		buff[ret] = '\0';
-		tmp = nl->txt;
-		if (!(nl->txt = ft_strjoin(tmp, buff)))
+		buf[ret] = 0;
+		if (!(tmp = ft_strjoin(nl->txt, buf)))
+			return (-1);
+		free(nl->txt);
+		if (!(nl->txt = ft_strldup(tmp, ft_strlen(tmp))))
 			return (-1);
 		free(tmp);
 	}
@@ -31,65 +46,63 @@ static int	ft_read_line(t_line *nl, int fd)
 	return (ret);
 }
 
-static int	reset_line(char **line)
+static int	ft_reset(t_line *nl, char **line, int b_line, int ret_val)
 {
-	if (!(*line = (char *)malloc(sizeof(char) * 1)))
-		return (-1);
-	*(line[0]) = '\0';
-	return (0);
-}
-
-static int	reset_struct(t_line *nl, int b, char **line, int ret_val)
-{
-	if (b < 1)
-		ret_val = reset_line(line);
+	if (b_line)
+	{
+		if (!(*line = (char *)malloc(sizeof(char) * 1)))
+			return (-1);
+		*(line[0]) = 0;
+	}
 	nl->count = 0;
+	nl->txt = NULL;
 	free(nl->txt);
 	return (ret_val);
 }
 
-static int	stock_line(t_line *nl, char **line, int i)
+static int	ft_stock(t_line *nl, char **line)
 {
-	char		*tmp;
+	int	i;
+	int	eof;
+	char	c;
+	char	*tmp;
 
-	if (!(*line = ft_strldup(nl->txt, i)))
-		return (-1);
-	tmp = ft_strldup(nl->txt + i + 1, ft_strlen(nl->txt) - i - 1);
-	free(nl->txt);
-	if (!(nl->txt = ft_strldup(tmp, ft_strlen(tmp))))
-	{
-		free(tmp);
-		return (-1);
-	}
-	free(tmp);
-	return (0);
-}
-
-int			get_next_line(int fd, char **line)
-{
-	static t_line	nl;
-	int				i;
-	int				eof;
-
-	if (fd < 0 || !line || BUFFER_SIZE < 1)
-		return (-1);
-	if (!nl.count++)
-		if (ft_read_line(&nl, fd) == -1)
-			return (reset_struct(&nl, 1, line, -1));
 	i = -1;
 	eof = 1;
-	while (nl.txt && *(nl.txt + ++i))
-	{
-		if (*(nl.txt + i) == '\n')
-		{
-			eof = 0;
+	while (nl->txt && (c = *(nl->txt + ++i)))
+		if (c == '\n')
 			break ;
-		}
+	if (c == '\n')
+		eof = 0;
+	if (!(*line = ft_strldup(nl->txt, i)))
+		return (-1);
+	if (!eof)
+	{
+		if (!(tmp = ft_strldup(nl->txt + i + 1, ft_strlen(nl->txt) - i - 1)))
+			return (-1);
+		free(nl->txt);
+		if (!(nl->txt = ft_strldup(tmp, ft_strlen(tmp))))
+			return (-1);
+		free(tmp);
 	}
-	if (!eof || i > 0)
-		if (stock_line(&nl, line, i) == -1)
-			return (reset_struct(&nl, 0, line, -1));
-	if (eof)
-		return (reset_struct(&nl, i, line, 0));
-	return (1);
+	return (eof == 0);
+}
+
+int		get_next_line(int fd, char **line)
+{
+	char			buf[BUFFER_SIZE + 1];
+	static t_line	nl;
+	int			err;
+
+	if ((err = ft_err(fd, buf, line)) == -1)
+		return (-1);
+	buf[err] = 0;
+	if (!nl.count++)
+		err = ft_read(fd, buf, &nl);
+	if (err == -1)
+		return (ft_reset(&nl, line, 1, -1));
+	err = ft_stock(&nl, line);
+	if (!err)
+		ft_reset(&nl, line, 0, err);
+	return (err);
 }
