@@ -6,7 +6,7 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:47:34 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/18 15:57:17 by mcciupek         ###   ########.fr       */
+/*   Updated: 2020/12/18 17:04:21 by mcciupek         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ typedef struct		s_line
 
 int					get_next_line(int fd, char **line);
 int					ft_strlen(char *str);
+int					ft_strchr(char *str, int ch);;
 size_t				ft_strlcpy(char *dest, char *src, size_t size);
 char				*ft_strldup(char *src, size_t size);
 char				*ft_strjoin(char *s1, char *s2);
