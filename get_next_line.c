@@ -6,7 +6,7 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/17 18:02:09 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/21 10:55:01 by mciupek          ###   ########.fr       */
+/*   Updated: 2020/12/21 10:58:46 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ft_reset(t_line *nl, char **line, int b_line, int ret_val)
 	{
 		if (!(*line = (char *)malloc(sizeof(char) * 1)))
 			ret_val = -1;
-		else	
+		else
 			*(line[0]) = 0;
 	}
 	free(nl->txt);
@@ -67,8 +67,8 @@ static int	ft_reset(t_line *nl, char **line, int b_line, int ret_val)
 
 static int	ft_stock(t_line *nl, char **line)
 {
-	int	i;
-	int	eof;
+	int		i;
+	int		eof;
 	char	c;
 	char	*tmp;
 
@@ -93,11 +93,11 @@ static int	ft_stock(t_line *nl, char **line)
 	return (eof == 0);
 }
 
-int		get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
 	char			*buf;
 	static t_line	nl;
-	int			err;
+	int				err;
 
 	if (!nl.count)
 		nl.txt = NULL;

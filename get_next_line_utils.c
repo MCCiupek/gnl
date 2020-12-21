@@ -6,7 +6,7 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:52:40 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/18 17:04:15 by mcciupek         ###   ########.fr       */
+/*   Updated: 2020/12/21 10:57:58 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (NULL);
 }
 
-int	ft_strchr(char *str, int ch)
+int		ft_strchr(char *str, int ch)
 {
 	int	i;
 
