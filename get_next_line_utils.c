@@ -6,13 +6,13 @@
 /*   By: mcciupek <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/14 11:52:40 by mcciupek          #+#    #+#             */
-/*   Updated: 2020/12/21 10:57:58 by mciupek          ###   ########.fr       */
+/*   Updated: 2020/12/21 18:23:48 by mciupek          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		ft_strlen(char *str)
+int			ft_strlen(char *str)
 {
 	int	i;
 
@@ -24,45 +24,28 @@ int		ft_strlen(char *str)
 	return (i);
 }
 
-size_t	ft_strlcpy(char *dest, char *src, size_t size)
+static void	*ft_memcpy(char *dest, char *src, size_t size)
 {
-	size_t	i;
-
-	i = 0;
-	if (!dest || !src)
-		return (0);
-	while (i < size)
-	{
-		if (!src[i])
-		{
-			dest[i] = '\0';
-			break ;
-		}
-		if (i == size - 1)
-		{
-			dest[i] = '\0';
-			break ;
-		}
-		dest[i] = src[i];
-		i++;
-	}
-	return (i);
+	while (size--)
+		*dest++ = *src++;
+	return (NULL);
 }
 
-char	*ft_strldup(char *src, size_t size)
+char		*ft_strldup(char *src, size_t size)
 {
 	char	*tab;
 
 	tab = (char *)malloc(sizeof(char) * (size + 1));
 	if (tab)
 	{
-		ft_strlcpy(tab, src, size + 1);
+		ft_memcpy(tab, src, size);
+		tab[size] = 0;
 		return (tab);
 	}
 	return (NULL);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char		*ft_strjoin(char *s1, char *s2)
 {
 	char	*tab;
 	size_t	l1;
@@ -72,14 +55,15 @@ char	*ft_strjoin(char *s1, char *s2)
 	l2 = ft_strlen(s2);
 	if ((tab = (char *)malloc(sizeof(char) * (l1 + l2 + 1))))
 	{
-		ft_strlcpy(tab, s1, l1 + 1);
-		ft_strlcpy(tab + l1, s2, l2 + 1);
+		ft_memcpy(tab, s1, l1);
+		ft_memcpy(tab + l1, s2, l2);
+		tab[l1 + l2] = 0;
 		return (tab);
 	}
 	return (NULL);
 }
 
-int		ft_strchr(char *str, int ch)
+int			ft_strchr(char *str, int ch)
 {
 	int	i;
 
